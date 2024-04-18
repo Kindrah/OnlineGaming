@@ -1,0 +1,36 @@
+---
+title: "groupwork"
+author: "tamayo, loredo, parrenas"
+date: "2024-04-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readr)
+library(ggplot2)
+library(dplyr)
+```
+
+```{r}
+survey <- read_csv("Survey_ Understanding Student Engagement in Online Gaming.csv")
+View(survey)
+```
+
+```{r}
+
+age <- survey %>%
+  mutate(Age = as.factor(Age)) %>%
+  group_by(Age) %>%
+  summarise(count = n())
+
+# Plotting
+ggplot(age, aes(x = Age, y = count)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(x = "Age", y = "Frequency", title = "Frequency of Age Groups")
+
+```
+
