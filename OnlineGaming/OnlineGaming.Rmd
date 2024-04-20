@@ -33,4 +33,15 @@ ggplot(age, aes(x = Age, y = count)) +
   labs(x = "Age", y = "Frequency", title = "Frequency of Age Groups")
 
 ```
+```{r}
+gender <- table(survey$Gender)
+ gender<- as.data.frame(gender)
+ gender
+ 
+ 
+ ggplot(gender, aes(x = Var1, y = Freq)) +
+  geom_bar(stat = "identity", fill = "pink") +  
+  labs(title = "Gender of Respondents", x = "Gender", y = "Frequency")
+```
+ 
 
