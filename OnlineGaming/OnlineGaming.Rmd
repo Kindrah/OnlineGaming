@@ -80,3 +80,24 @@ namedf$name <- toupper(trimws(namedf$name))
 
 
 ```
+
+```{r}
+library(ggplot2)
+
+question1 <- survey %>%
+  mutate(`How confident are you that playing online games can help you develop valuable skills, such as problem-solving or teamwork?` = as.character(`How confident are you that playing online games can help you develop valuable skills, such as problem-solving or teamwork?`)) %>%  
+  group_by(`How confident are you that playing online games can help you develop valuable skills, such as problem-solving or teamwork?`) %>%
+  summarise(count = n())
+
+# Mean and standard deviation
+survey_summary <- question1 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+
+ggplot(question1, aes(x = `How confident are you that playing online games can help you develop valuable skills, such as problem-solving or teamwork?`, y = count)) +
+  geom_bar(stat = "identity", fill = "skyblue", width = 0.5) +
+  labs(x = "Confidence Level", y = "Frequency", title = "How confident are you that playing online games can help you develop valuable skills, such as problem-solving or teamwork?")
+
+```          
+            
+            
