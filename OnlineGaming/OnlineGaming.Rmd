@@ -14,14 +14,22 @@ library(readr)
 library(ggplot2)
 library(dplyr)
 ```
-
+Read the Responses
 ```{r}
 survey <- read_csv("Survey_ Understanding Student Engagement in Online Gaming.csv")
 View(survey)
 ```
+Mean of each columns
+```{r}
+numeric_cols <- sapply(survey, is.numeric) 
+
+survey_numeric <- survey[, numeric_cols]
+
+col_means <- colMeans(survey_numeric)
+col_means
+```
 
 ```{r}
-
 age <- survey %>%
   mutate(Age = as.factor(Age)) %>%
   group_by(Age) %>%
@@ -29,10 +37,10 @@ age <- survey %>%
 
 # Plotting
 ggplot(age, aes(x = Age, y = count)) +
-  geom_bar(stat = "identity", fill = "skyblue") +
+  geom_bar(stat = "identity", fill = "skyblue", width = 0.5) +
   labs(x = "Age", y = "Frequency", title = "Frequency of Age Groups")
-
 ```
+Gender Responses
 ```{r}
 gender <- table(survey$Gender)
  gender<- as.data.frame(gender)
@@ -43,5 +51,32 @@ gender <- table(survey$Gender)
   geom_bar(stat = "identity", fill = "pink") +  
   labs(title = "Gender of Respondents", x = "Gender", y = "Frequency")
 ```
- 
+Address of Respondents
+```{r}
+address_data <- survey$Address 
+addressdf <- data.frame(address = address_data)
 
+addressdf$address <- toupper(trimws(addressdf$address))  
+
+address_freq <- addressdf %>%
+  group_by(address) %>%
+  summarise(count = n()) %>%
+  arrange(desc(count))
+```
+
+```{r}
+#Plotting
+ggplot(address_freq, aes(x = factor(address), y = count)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Address of Respondents", x = "Address", y = "Frequency") +
+  theme(axis.text.x = element_text(angle =  , hjust =  ))
+```
+Name of Respondents
+```{r}
+name_data <- survey$`Name (optional)`
+namedf <- data.frame(name = name_data) 
+
+namedf$name <- toupper(trimws(namedf$name))  
+
+
+```
