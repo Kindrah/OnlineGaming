@@ -14,14 +14,22 @@ library(readr)
 library(ggplot2)
 library(dplyr)
 ```
-
+Read the Responses
 ```{r}
 survey <- read_csv("Survey_ Understanding Student Engagement in Online Gaming.csv")
 View(survey)
 ```
+Mean of each columns
+```{r}
+numeric_cols <- sapply(survey, is.numeric) 
+
+survey_numeric <- survey[, numeric_cols]
+
+col_means <- colMeans(survey_numeric)
+col_means
+```
 
 ```{r}
-
 age <- survey %>%
   mutate(Age = as.factor(Age)) %>%
   group_by(Age) %>%
@@ -33,6 +41,33 @@ age_summary <- age %>%
             sd_count = sd(count))
 
 ggplot(age, aes(x = Age, y = count)) +
+  geom_bar(stat = "identity", fill = "skyblue", width = 0.5) +
+  labs(x = "Age", y = "Frequency", title = "Frequency of Age Groups")
+```
+Gender Responses
+```{r}
+gender <- table(survey$Gender)
+ gender<- as.data.frame(gender)
+ gender
+ 
+ 
+ ggplot(gender, aes(x = Var1, y = Freq)) +
+  geom_bar(stat = "identity", fill = "pink") +  
+  labs(title = "Gender of Respondents", x = "Gender", y = "Frequency")
+```
+Address of Respondents
+```{r}
+address_data <- survey$Address 
+addressdf <- data.frame(address = address_data)
+
+addressdf$address <- toupper(trimws(addressdf$address))  
+
+address_freq <- addressdf %>%
+  group_by(address) %>%
+  summarise(count = n()) %>%
+  arrange(desc(count))
+```
+```{r}
   geom_bar(stat = "identity", fill = "skyblue", width = 0.7) +
   labs(
     title = "Counts of Survey Respondents by Age",
@@ -63,7 +98,37 @@ ggplot(gender, aes(x = Gender, y = count)) +
     y = "Count"
   ) +
   theme_minimal()
+```
+```{r}
+#Plotting
+ggplot(address_freq, aes(x = factor(address), y = count)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Address of Respondents", x = "Address", y = "Frequency") +
+  theme(axis.text.x = element_text(angle =  , hjust =  ))
+```
+Name of Respondents
+```{r}
+name_data <- survey$`Name (optional)`
+namedf <- data.frame(name = name_data) 
+
+namedf$name <- toupper(trimws(namedf$name))  
 
 ```
 
+```{r}
+library(ggplot2)
 
+question1 <- survey %>%
+  mutate(`How confident are you that playing online games can help you develop valuable skills, such as problem-solving or teamwork?` = as.character(`How confident are you that playing online games can help you develop valuable skills, such as problem-solving or teamwork?`)) %>%  
+  group_by(`How confident are you that playing online games can help you develop valuable skills, such as problem-solving or teamwork?`) %>%
+  summarise(count = n())
+
+# Mean and standard deviation
+survey_summary <- question1 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+
+ggplot(question1, aes(x = `How confident are you that playing online games can help you develop valuable skills, such as problem-solving or teamwork?`, y = count)) +
+  geom_bar(stat = "identity", fill = "skyblue", width = 0.5) +
+  labs(x = "Confidence Level", y = "Frequency", title = "How confident are you that playing online games can help you develop valuable skills, such as problem-solving or teamwork?")
+```
