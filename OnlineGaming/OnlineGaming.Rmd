@@ -35,7 +35,11 @@ age <- survey %>%
   group_by(Age) %>%
   summarise(count = n())
 
-# Plotting
+# geting mean and standard deviation of counts
+age_summary <- age %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+
 ggplot(age, aes(x = Age, y = count)) +
   geom_bar(stat = "identity", fill = "skyblue", width = 0.5) +
   labs(x = "Age", y = "Frequency", title = "Frequency of Age Groups")
@@ -63,7 +67,38 @@ address_freq <- addressdf %>%
   summarise(count = n()) %>%
   arrange(desc(count))
 ```
+```{r}
+  geom_bar(stat = "identity", fill = "skyblue", width = 0.7) +
+  labs(
+    title = "Counts of Survey Respondents by Age",
+    x = "Age",
+    y = "Count"
+  ) +
+  theme_minimal()
 
+```
+
+```{r}
+#geting the count of gender
+(gender <- survey %>%
+  mutate(Gender = as.character(Gender)) %>%  
+  group_by(Gender) %>%
+  summarise(count = n()))
+
+# geting mean and standard deviation of counts
+(gender_summary <- gender %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count)))
+
+ggplot(gender, aes(x = Gender, y = count)) +
+  geom_bar(stat = "identity", fill = "skyblue", width = 0.7) +
+  labs(
+    title = "Counts of Survey Respondents by Gender",
+    x = "Gender",
+    y = "Count"
+  ) +
+  theme_minimal()
+```
 ```{r}
 #Plotting
 ggplot(address_freq, aes(x = factor(address), y = count)) +
@@ -77,7 +112,6 @@ name_data <- survey$`Name (optional)`
 namedf <- data.frame(name = name_data) 
 
 namedf$name <- toupper(trimws(namedf$name))  
-
 
 ```
 
@@ -97,7 +131,4 @@ survey_summary <- question1 %>%
 ggplot(question1, aes(x = `How confident are you that playing online games can help you develop valuable skills, such as problem-solving or teamwork?`, y = count)) +
   geom_bar(stat = "identity", fill = "skyblue", width = 0.5) +
   labs(x = "Confidence Level", y = "Frequency", title = "How confident are you that playing online games can help you develop valuable skills, such as problem-solving or teamwork?")
-
-```          
-            
-            
+```
