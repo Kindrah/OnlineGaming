@@ -44,6 +44,7 @@ ggplot(age, aes(x = Age, y = count)) +
   geom_bar(stat = "identity", fill = "skyblue", width = 0.5) +
   labs(x = "Age", y = "Frequency", title = "Frequency of Age Groups")
 ```
+
 Gender Responses
 ```{r}
 gender <- table(survey$Gender)
@@ -55,7 +56,7 @@ gender <- table(survey$Gender)
   geom_bar(stat = "identity", fill = "pink") +  
   labs(title = "Gender of Respondents", x = "Gender", y = "Frequency")
 ```
-Address of Respondents
+
 ```{r}
 address_data <- survey$Address 
 addressdf <- data.frame(address = address_data)
@@ -67,17 +68,16 @@ address_freq <- addressdf %>%
   summarise(count = n()) %>%
   arrange(desc(count))
 ```
+
+
 ```{r}
-  geom_bar(stat = "identity", fill = "skyblue", width = 0.7) +
-  labs(
-    title = "Counts of Survey Respondents by Age",
-    x = "Age",
-    y = "Count"
-  ) +
-  theme_minimal()
-
+#Plotting
+ggplot(address_freq, aes(x = factor(address), y = count)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Address of Respondents", x = "Address", y = "Frequency") +
+  theme(axis.text.x = element_text(angle =  , hjust =  ))
 ```
-
+Gender Responses
 ```{r}
 #geting the count of gender
 (gender <- survey %>%
@@ -99,12 +99,21 @@ ggplot(gender, aes(x = Gender, y = count)) +
   ) +
   theme_minimal()
 ```
+Level of education
 ```{r}
-#Plotting
-ggplot(address_freq, aes(x = factor(address), y = count)) +
-  geom_bar(stat = "identity") +
-  labs(title = "Address of Respondents", x = "Address", y = "Frequency") +
-  theme(axis.text.x = element_text(angle =  , hjust =  ))
+year_level <- survey %>% 
+  mutate(`Level of education you are currently in`) %>%
+  group_by(`Level of education you are currently in`) %>%
+  summarise(count = n())
+
+# Mean and standard deviation
+survey_year <- year_level %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+#plotting
+ggplot(year_level, aes(x = `Level of education you are currently in`, y = count)) +
+  geom_bar(stat = "identity", fill = "pink", width = 0.1) +
+  labs(x = "Level of Education", y = "Frequency", title = "Level of education you are currently in")
 ```
 Name of Respondents
 ```{r}
@@ -132,8 +141,108 @@ ggplot(question1, aes(x = `How confident are you that playing online games can h
   geom_bar(stat = "identity", fill = "skyblue", width = 0.5) +
   labs(x = "Confidence Level", y = "Frequency", title = "How confident are you that playing online games can help you develop valuable skills, such as problem-solving or teamwork?")
 ```
+```{r}
+# Correct the column names in mutate and group_by functions
+q2 <- survey %>%
+  mutate(`Do you believe that playing online games can improve your cognitive abilities, like critical thinking or decision-making?`) %>%
+  group_by(`Do you believe that playing online games can improve your cognitive abilities, like critical thinking or decision-making?`) %>%
+    summarise(count = n())
+
+# Calculate count, mean, and standard deviation
+q2_summary <- q2 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+q2_summary
+
+# Plotting
+ggplot(q2, aes(x = `Do you believe that playing online games can improve your cognitive abilities, like critical thinking or decision-making?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "green") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "Do you believe that playing online games can improve your cognitive abilities, like critical thinking or decision-making?",
+       x = "Cognitive Abilities",
+       y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend
 
 
+```
+
+```{r}
+q3 <- survey %>%
+  mutate(`In your experience, have online games ever helped you achieve a specific goal or overcome a challenge (academic, social)?`) %>%
+  group_by(`In your experience, have online games ever helped you achieve a specific goal or overcome a challenge (academic, social)?`) %>%
+  summarise(count = n())
+
+#get sd and mean
+q3_summary <- q3 %>%
+  summarise( mean_count = mean(count),
+             sd_count = sd(count))
+
+#plotting
+ggplot(q3, aes(x = `In your experience, have online games ever helped you achieve a specific goal or overcome a challenge (academic, social)?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "blue") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "In your experience, have online games ever helped you achieve a specific goal or overcome a challenge (academic, social)? ",
+       x = "Responses",
+       y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend
+
+```
+
+```{r}
+q4 <- survey %>%
+  mutate(`How easy or difficult do you find it to learn the rules and mechanics of new online games?`) %>%
+  group_by(`How easy or difficult do you find it to learn the rules and mechanics of new online games?`) %>%
+  summarise(count = n())
+
+#get mean and sd
+q4_summary <- q4 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+
+#plotting
+ggplot(q4, aes(x = `How easy or difficult do you find it to learn the rules and mechanics of new online games?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "skyblue") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "Effort Expectancy",
+       x = "How easy or difficult do you find it to learn the rules and mechanics of new online games?",
+       y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend
+```
+```{r}
+q5 <- survey %>%
+  mutate(`Do you feel that online games require a lot of time and effort to be successful or enjoyable?`) %>%
+  group_by(`Do you feel that online games require a lot of time and effort to be successful or enjoyable?`) %>%
+  summarise(count = n())
+
+
+  geom_bar(stat = "identity", fill = "skyblue", width = 0.7) +
+  labs(
+    title = "Counts of Survey Respondents by Age",
+    x = "Age",
+    y = "Count"
+  ) +
+  theme_minimal()
+
+
+#get mean and sd
+q5_summary <- q5 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+q5_summary
+
+#plotting
+ggplot(q5, aes(x = `Do you feel that online games require a lot of time and effort to be successful or enjoyable?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "skyblue") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "Effort Expectancy",
+       x = "Do you feel that online games require a lot of time and effort to be successful or enjoyable?",
+       y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend
+```
 ```{r}
 q6 <- survey %>%
   mutate(`Would you say that playing online games effectively requires a significant investment of time and practice?`) %>%
@@ -297,12 +406,11 @@ ggplot(q13, aes(x = `Do you have access to reliable internet connectivity and de
   geom_text(aes(label = count), vjust = -0.5) + 
   labs(title = "Facilitating Conditions",
        x = "Do you have access to reliable internet connectivity and devices that can run online games smoothly?",
-       y = "Count") +
+        y = "Count") +
   theme_minimal() +
   theme(legend.position = "none")  # Remove legend
-```
-
 ```{r}
+
 q14 <- survey %>%
   mutate(`Do you feel your parents or guardians understand and support your interest in online gaming?`) %>%
   group_by(`Do you feel your parents or guardians understand and support your interest in online gaming?`) %>%
@@ -360,8 +468,4 @@ ggplot(q16, aes(x = `How confident are you in your ability to manage your time e
   geom_text(aes(label = count), vjust = -0.5) + 
   labs(title = "Facilitating Conditions",
        x = "How confident are you in your ability to manage your time effectively and balance online gaming with other responsibilities?",
-       y = "Count") +
-  theme_minimal() +
-  theme(legend.position = "none")  # Remove legend
-```
-
+````
