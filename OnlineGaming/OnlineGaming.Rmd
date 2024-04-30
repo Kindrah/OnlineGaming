@@ -68,7 +68,7 @@ address_freq <- addressdf %>%
   summarise(count = n()) %>%
   arrange(desc(count))
 ```
-<<<<<<< HEAD
+
 
 ```{r}
 #Plotting
@@ -141,8 +141,6 @@ ggplot(question1, aes(x = `How confident are you that playing online games can h
   geom_bar(stat = "identity", fill = "skyblue", width = 0.5) +
   labs(x = "Confidence Level", y = "Frequency", title = "How confident are you that playing online games can help you develop valuable skills, such as problem-solving or teamwork?")
 ```
-
-
 ```{r}
 # Correct the column names in mutate and group_by functions
 q2 <- survey %>%
@@ -213,7 +211,6 @@ ggplot(q4, aes(x = `How easy or difficult do you find it to learn the rules and 
   theme_minimal() +
   theme(legend.position = "none")  # Remove legend
 ```
-
 ```{r}
 q5 <- survey %>%
   mutate(`Do you feel that online games require a lot of time and effort to be successful or enjoyable?`) %>%
@@ -246,3 +243,229 @@ ggplot(q5, aes(x = `Do you feel that online games require a lot of time and effo
   theme_minimal() +
   theme(legend.position = "none")  # Remove legend
 ```
+```{r}
+q6 <- survey %>%
+  mutate(`Would you say that playing online games effectively requires a significant investment of time and practice?`) %>%
+  group_by(`Would you say that playing online games effectively requires a significant investment of time and practice?`) %>%
+  summarise(count = n())
+
+#get mean and sd
+q6_summary <- q6 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+
+#plotting
+ggplot(q6, aes(x = `Would you say that playing online games effectively requires a significant investment of time and practice?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "navyblue") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "Effort Expectancy",
+       x = "Would you say that playing online games effectively requires a significant investment of time and practice?",
+       y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend
+```
+```{r}
+q7 <- survey %>%
+  mutate(`On a scale of 1-5. How much do you enjoy playing online games?`) %>%
+  group_by(`On a scale of 1-5. How much do you enjoy playing online games?`) %>%
+  summarise(count = n())
+
+#get mean and sd
+q7_summary <- q7 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+#plotting
+ggplot(q7, aes(x = `On a scale of 1-5. How much do you enjoy playing online games?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "gold") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "Attitude Toward Using the Technology",
+       x = "On a scale of 1-5. How much do you enjoy playing online games?",
+       y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend
+```
+
+```{r}
+q8 <- survey %>%
+  mutate(`Do you find online games to be a fun and engaging way to spend your free time?`) %>%
+  group_by(`Do you find online games to be a fun and engaging way to spend your free time?`) %>%
+  summarise(count = n())
+
+#get mean and sd
+q8_summary <- q8 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+#plotting
+ggplot(q8, aes(x = `Do you find online games to be a fun and engaging way to spend your free time?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "brown") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "Attitude Toward Using the Technology",
+       x = "Do you find online games to be a fun and engaging way to spend your free time?",
+       y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend
+```
+
+```{r}
+q9 <- survey %>%
+  mutate(`Would you recommend online games to your friends as a way to relax or have fun?`) %>%
+  group_by(`Would you recommend online games to your friends as a way to relax or have fun?`) %>%
+  summarise(count = n())
+
+#get mean and sd
+q9_summary <- q9 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+#plotting
+ggplot(q9, aes(x = `Would you recommend online games to your friends as a way to relax or have fun?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "purple") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "Attitude Toward Using the Technology",
+       x = "Would you recommend online games to your friends as a way to relax or have fun?",
+       y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend
+```
+
+```{r}
+q10 <- survey %>%
+  mutate(`How often do your friends or classmates talk about playing online games?`) %>%
+  group_by(`How often do your friends or classmates talk about playing online games?`) %>%
+  summarise(count = n())
+
+#get mean and sd
+q10_summary <- q10 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+#plotting
+ggplot(q10, aes(x = `How often do your friends or classmates talk about playing online games?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "gray") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "Social Influence",
+       x = "Would you recommend online games to your friends as a way to relax or have fun?",
+       y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend
+```
+
+```{r}
+q11 <- survey %>%
+  mutate(`Do you feel pressure from your friends to play certain online games or spend more time gaming?`) %>%
+  group_by(`Do you feel pressure from your friends to play certain online games or spend more time gaming?`) %>%
+  summarise(count = n())
+
+#get mean and sd
+q11_summary <- q11 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+#plotting
+ggplot(q11, aes(x = `Do you feel pressure from your friends to play certain online games or spend more time gaming?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "violet") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "Social Influence",
+       x = "Do you feel pressure from your friends to play certain online games or spend more time gaming?",
+       y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend
+```
+
+```{r}
+q12 <- survey %>%
+  mutate(`How many of your friends or classmates do you regularly play online games with?`) %>%
+  group_by(`How many of your friends or classmates do you regularly play online games with?`) %>%
+  summarise(count = n())
+
+#get mean and sd
+q12_summary <- q12 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+#plotting
+ggplot(q12, aes(x = `How many of your friends or classmates do you regularly play online games with?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "blue") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "Social Influence",
+       x = "How many of your friends or classmates do you regularly play online games with?",
+       y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend
+```
+
+```{r}
+q13 <- survey %>%
+  mutate(`Do you have access to reliable internet connectivity and devices that can run online games smoothly?`) %>%
+  group_by(`Do you have access to reliable internet connectivity and devices that can run online games smoothly?`) %>%
+  summarise(count = n())
+
+#get mean and sd
+q13_summary <- q13 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+#plotting
+ggplot(q13, aes(x = `Do you have access to reliable internet connectivity and devices that can run online games smoothly?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "orange") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "Facilitating Conditions",
+       x = "Do you have access to reliable internet connectivity and devices that can run online games smoothly?",
+        y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend
+```{r}
+
+q14 <- survey %>%
+  mutate(`Do you feel your parents or guardians understand and support your interest in online gaming?`) %>%
+  group_by(`Do you feel your parents or guardians understand and support your interest in online gaming?`) %>%
+  summarise(count = n())
+
+#get mean and sd
+q14_summary <- q14 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+#plotting
+ggplot(q14, aes(x = `Do you feel your parents or guardians understand and support your interest in online gaming?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "yellow") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "Facilitating Conditions",
+       x = "Do you feel your parents or guardians understand and support your interest in online gaming?",
+       y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend
+```
+
+```{r}
+q15 <- survey %>%
+  mutate(`Are there any limitations or rules set by your parents/guardians regarding the amount of time you can spend playing online games?`) %>%
+  group_by(`Are there any limitations or rules set by your parents/guardians regarding the amount of time you can spend playing online games?`) %>%
+  summarise(count = n())
+
+#get mean and sd
+q15_summary <- q15 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+#plotting
+ggplot(q15, aes(x = `Are there any limitations or rules set by your parents/guardians regarding the amount of time you can spend playing online games?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "red") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "Facilitating Conditions",
+       x = "Are there any limitations or rules set by your parents/guardians regarding the amount of time you can spend playing online games?",
+       y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend
+```
+
+```{r}
+q16 <- survey %>%
+  mutate(`How confident are you in your ability to manage your time effectively and balance online gaming with other responsibilities?`) %>%
+  group_by(`How confident are you in your ability to manage your time effectively and balance online gaming with other responsibilities?`) %>%
+  summarise(count = n())
+
+#get mean and sd
+q16_summary <- q16 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+#plotting
+ggplot(q16, aes(x = `How confident are you in your ability to manage your time effectively and balance online gaming with other responsibilities?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "black") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "Facilitating Conditions",
+       x = "How confident are you in your ability to manage your time effectively and balance online gaming with other responsibilities?",
+````
