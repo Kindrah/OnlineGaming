@@ -179,3 +179,47 @@ ggplot(q3, aes(x = `In your experience, have online games ever helped you achiev
 
 ```
 
+```{r}
+q4 <- survey %>%
+  mutate(`How easy or difficult do you find it to learn the rules and mechanics of new online games?`) %>%
+  group_by(`How easy or difficult do you find it to learn the rules and mechanics of new online games?`) %>%
+  summarise(count = n())
+
+#get mean and sd
+q4_summary <- q4 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+
+#plotting
+ggplot(q4, aes(x = `How easy or difficult do you find it to learn the rules and mechanics of new online games?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "skyblue") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "Effort Expectancy",
+       x = "How easy or difficult do you find it to learn the rules and mechanics of new online games?",
+       y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend
+```
+
+```{r}
+q5 <- survey %>%
+  mutate(`Do you feel that online games require a lot of time and effort to be successful or enjoyable?`) %>%
+  group_by(`Do you feel that online games require a lot of time and effort to be successful or enjoyable?`) %>%
+  summarise(count = n())
+
+#get mean and sd
+q5_summary <- q5 %>%
+  summarise(mean_count = mean(count),
+            sd_count = sd(count))
+q5_summary
+#plotting
+ggplot(q5, aes(x = `Do you feel that online games require a lot of time and effort to be successful or enjoyable?`, y = count)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "skyblue") +
+  geom_text(aes(label = count), vjust = -0.5) + 
+  labs(title = "Effort Expectancy",
+       x = "Do you feel that online games require a lot of time and effort to be successful or enjoyable?",
+       y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend
+```
+
