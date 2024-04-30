@@ -44,7 +44,19 @@ ggplot(age, aes(x = Age, y = count)) +
   geom_bar(stat = "identity", fill = "skyblue", width = 0.5) +
   labs(x = "Age", y = "Frequency", title = "Frequency of Age Groups")
 ```
-Address of Respondents
+
+Gender Responses
+```{r}
+gender <- table(survey$Gender)
+ gender<- as.data.frame(gender)
+ gender
+ 
+ 
+ ggplot(gender, aes(x = Var1, y = Freq)) +
+  geom_bar(stat = "identity", fill = "pink") +  
+  labs(title = "Gender of Respondents", x = "Gender", y = "Frequency")
+```
+
 ```{r}
 address_data <- survey$Address 
 addressdf <- data.frame(address = address_data)
@@ -56,6 +68,7 @@ address_freq <- addressdf %>%
   summarise(count = n()) %>%
   arrange(desc(count))
 ```
+<<<<<<< HEAD
 
 ```{r}
 #Plotting
@@ -207,11 +220,22 @@ q5 <- survey %>%
   group_by(`Do you feel that online games require a lot of time and effort to be successful or enjoyable?`) %>%
   summarise(count = n())
 
+
+  geom_bar(stat = "identity", fill = "skyblue", width = 0.7) +
+  labs(
+    title = "Counts of Survey Respondents by Age",
+    x = "Age",
+    y = "Count"
+  ) +
+  theme_minimal()
+
+
 #get mean and sd
 q5_summary <- q5 %>%
   summarise(mean_count = mean(count),
             sd_count = sd(count))
 q5_summary
+
 #plotting
 ggplot(q5, aes(x = `Do you feel that online games require a lot of time and effort to be successful or enjoyable?`, y = count)) +
   geom_bar(stat = "identity", width = 0.7, fill = "skyblue") +
@@ -222,4 +246,3 @@ ggplot(q5, aes(x = `Do you feel that online games require a lot of time and effo
   theme_minimal() +
   theme(legend.position = "none")  # Remove legend
 ```
-
